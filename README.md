@@ -1,21 +1,11 @@
+# LearnJS
+A serverless single page application hosted on [Amazon S3](http://docs.aws.amazon.com/AmazonS3/latest/dev/Welcome.html). 
 
-## Change Log
-
-### Beta 3 Changes
-
-  * Compensating for AWSCLI timing issues when creating roles
-  
-### Beta 2 Changes
-
-  * Now using 'admin' profile instead of default profile
-  * Added create_service action to sspa
-  * deploy_bucket can now take a config path
+This is a learning exercise. The project originated from the book [Serverless Single Page Apps](https://pragprog.com/book/brapps/serverless-single-page-apps) by [Ben Rady](https://twitter.com/benrady).
 
 ## MIT License
 
-Note: The license below applies only to the contents of this git repository, not the Pragmatic Bookshelf title "Serverless Single Page Apps", or any other related content.
-
-Copyright (c) 2015 Ben Rady <benrady@gmail.com>
+Copyright (c) 2016 Michel Moreau <michmoreau.l@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
