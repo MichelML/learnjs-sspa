@@ -10,7 +10,6 @@ describe("LearnJS", function() {
   });
 
   it('passes the hash view parameter to the view function', function() {
-    spyOn(learnJS, 'problemView');
     learnjs.showView('#problem-42');
     expect(learnjs.problemView).toHaveBeenCalledWith('42');
   });
