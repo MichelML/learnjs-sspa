@@ -1,7 +1,14 @@
 "use strict";
 var learnjs = {};
-learnjs.showView = function(hash) {
-  var problemView = $("<div class='" + hash + "'>").text("Coming soon!");
-  $(".view-container").empty().append(problemView);
+
+learnjs.problemView = function() {
+  return $("<div class='problem-view'>").text("Coming soon!");
 };
-console.log(1);
+
+learnjs.showView = function(hash) {
+  var routes = {
+    "#problem-1": learnjs.problemView
+  };
+  var viewFn = routes[hash];
+  if (viewFn) $(".view-container").empty().append(viewFn());
+};
