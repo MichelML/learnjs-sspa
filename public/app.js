@@ -1,4 +1,16 @@
 "use strict";
+learnjs.problems = [
+  {
+    description: ' What is the truth?',
+    code: 'function problem() {return __; }'
+  },
+  {
+    description: 'Simple Math',
+    code: "function problem() { return 42 === 6 * __; }"
+  }
+];
+
+
 var learnjs = {};
 
 learnjs.problemView = function(problemNumber) {
