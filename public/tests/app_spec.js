@@ -35,15 +35,17 @@ describe("LearnJS", function() {
     });
 
     describe('answer section', function() {
+      var view;
+      beforeEach(function() {
+       view = learnjs.problemView('1');
+      });
       it('can check a correct answer by hitting a button', function() {
-        var view = learnjs.problemView('1');
         view.find('.answer').val('true');
         view.find('.check-btn').click();
         expect(view.find('.result').text()).toEqual('Correct!');
       });
 
       it('can check an incorrect answer', function() {
-        var view = learnjs.problemView('1');
         view.find('.answer').val('false');
         view.find('.check-btn').click();
         expect(view.find('.result').text()).toEqual('Incorrect!');
