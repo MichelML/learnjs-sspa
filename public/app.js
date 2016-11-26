@@ -40,7 +40,7 @@ learnjs.problemView = function(data) {
     var buttonItem = learnjs.template('skip-btn');
     buttonItem.find('a').attr('href', '#problem-' + (problemNumber+1));
     $('.nav-list').append(buttonItem);
-    view.bind('removingView', function() {
+    view.on('removingView', function() {
       buttonItem.remove();
     });
   }
