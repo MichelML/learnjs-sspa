@@ -12,40 +12,50 @@
     body {
       margin-top: 100px;
     }
+    
     .templates {
       display: none;
     }
+    
     .inline-list {
-      margin-bottom:0px;
+      margin-bottom: 0px;
     }
+    
     .inline-list li {
-      display:inline;
+      display: inline;
       margin: 0 20px 0 0;
     }
+    
     .fixed-top {
-      position:fixed;
-      top:0px;
-      z-index:1024;
+      position: fixed;
+      top: 0px;
+      z-index: 1024;
     }
+    
     .no-select {
-      user-select:node;
-      -webkit-user-select:none;
-      -ms-user-select:none;
-      -moz-user-select:none;
+      user-select: node;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      -moz-user-select: none;
     }
+    
     .hover-links a {
-      text-decoration:none;
+      text-decoration: none;
     }
+    
     .hover-links a:hover {
-      text-decoration:underline;
+      text-decoration: underline;
     }
+    
     .nav-container {
-      padding-left:40px;
+      padding-left: 40px;
       background: #666;
     }
+    
     .nav-container a {
-      color:white;
+      color: white;
     }
+    
     .nav-list {
       padding: 10px 10px;
     }
@@ -56,8 +66,14 @@
   <div class='markup'>
     <div class="nav-container no-select fixed-top u-full-width">
       <ul class="inline-list hover-links nav-list six columns">
-        <li><a href="#"><h3 style='display:inline'>LearnJS</h4></a></li>
-        <li><a href="#problem-1">Start</a></li>
+        <li>
+          <a href="#">
+            <h3 style='display:inline'>LearnJS</h3>
+          </a>
+        </li>
+        <li>
+          <a href="#problem-1">Start</a>
+        </li>
       </ul>
     </div>
     <div class='view-container container'>
@@ -79,7 +95,7 @@
         <p data-name='description'></p>
         <pre><code data-name='code'></code></pre>
         <form>
-          <textarea class="u-full-width answer" name="" cols="30" rows="10"></textarea>
+          <textarea class="u-full-width answer"></textarea>
         </form>
         <div>
           <button class="button-primary check-btn">Check Answer</button>
@@ -90,6 +106,9 @@
         <span>Correct!</span>
         <a href="">Next Problem</a>
       </div>
+      <li class="skip-btn">
+        <a href="">Skip This Problem</a>
+      </li>
     </div>
   </div>
   <script src='https://code.jquery.com/jquery-2.1.4.min.js'></script>
