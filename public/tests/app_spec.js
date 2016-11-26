@@ -41,9 +41,13 @@ describe("LearnJS", function() {
       it('can check a correct answer by hitting a button', function() {
         view.find('.answer').val('true');
         view.find('.check-btn').click();
-        expect(view.find('.result').text()).toEqual('Correct!');
+        expect(view.find('.result .correct-flash span').text()).toEqual('Correct!');
       });
-
+      it('displays a link to next problem on correct answer', function() {
+        view.find('.answer').val('true');
+        view.find('.check-btn').click();
+        expect(view.find('.result .correct-flash a').attr('href')).toEqual('#problem-2');
+      });
       it('can check an incorrect answer', function() {
         view.find('.answer').val('false');
         view.find('.check-btn').click();
