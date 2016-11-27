@@ -1,0 +1,14 @@
+{
+    "CodeSha256": "qI0/4nF/2KRxXR/JZ/aTpmOFRf5+g6bJpoBsyd6eTRc=", 
+    "FunctionName": "echo", 
+    "CodeSize": 789796, 
+    "MemorySize": 128, 
+    "FunctionArn": "arn:aws:lambda:us-east-1:177115313889:function:echo", 
+    "Version": "1", 
+    "Role": "arn:aws:iam::177115313889:role/learnjs_lambda_exec", 
+    "Timeout": 5, 
+    "LastModified": "2016-11-27T19:43:57.911+0000", 
+    "Handler": "index.echo", 
+    "Runtime": "nodejs4.3", 
+    "Description": ""
+}

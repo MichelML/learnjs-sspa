@@ -241,6 +241,9 @@ function create_iam_role() {
       --role-name "$role_name" \
       --assume-role-policy-document "${policy_document}" \
       > ${role_dir}/info.json
+  else
+    echo "create iam role did not work" 
+    exit 1
   fi
 }
 
@@ -253,8 +256,8 @@ function create_lambda_service() {
   while ! aws --profile $profile iam get-role --role-name ${app_name}_lambda_exec &> /dev/null; do
     echo -n .
   done
-  sleep 5 # See issue #17
   echo "...done!"
+  sleep 5
   if [[ ! -e ${service_dir}/info.json ]]; then
     aws --profile $profile lambda create-function \
       --function-name ${function_name} \
