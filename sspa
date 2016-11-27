@@ -242,8 +242,7 @@ function create_iam_role() {
       --assume-role-policy-document "${policy_document}" \
       > ${role_dir}/info.json
   else
-    echo "create iam role did not work" 
-    exit 1
+    echo "iam policy already created" 
   fi
 }
 

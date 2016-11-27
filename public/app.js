@@ -19,11 +19,11 @@ learnjs.problems = [
 
 learnjs.triggerEvent = function(name, args) {
   $(".view-container>*").trigger(name, args);
-}
+};
 
-learnjs.sendDbRequest = function(req, retry) {
+learnjs.sendAwsRequest = function(req, retry) {
   var promise = new $.Deferred();
-  req.on("error", function(error) {
+  req.on('error', function(error) {
     if (error.code === "CredentialsError") { 
       learnjs.identity.then(function(identity) {
         return identity.refresh().then(function() {
@@ -36,12 +36,25 @@ learnjs.sendDbRequest = function(req, retry) {
       promise.reject(error); 
     }
   });
-  req.on("success", function(resp) {
+  req.on('success', function(resp) {
     promise.resolve(resp.data); 
   });
   req.send();
   return promise;
-}
+};
+
+learnjs.popularAnswers = function(problemId) {
+  return learnjs.identity.then(function() {
+    var lambda = new AWS.Lambda();
+    var params = {
+      FunctionName: 'learnjs_popularAnswers',
+      Payload: JSON.stringify({problemNumber: problemId})
+    };
+    return learnjs.sendAwsRequest(lambda.invoke(params), function() {
+      return learnjs.popularAnswers(problemId);
+    });
+  });
+};
 
 learnjs.fetchAnswer = function(problemId) {
   return learnjs.identity.then(function(identity) {
@@ -72,7 +85,7 @@ learnjs.countAnswers = function(problemId) {
       return learnjs.countAnswers(problemId);
     })
   });
-}
+};
 
 learnjs.saveAnswer = function(problemId, answer) {
   return learnjs.identity.then(function(identity) {
@@ -93,7 +106,7 @@ learnjs.saveAnswer = function(problemId, answer) {
 
 learnjs.template = function(name) {
   return $(".templates ." + name).clone();
-}
+};
 
 learnjs.applyObject = function(obj, elem) {
   for (var key in obj) {
@@ -105,14 +118,14 @@ learnjs.addProfileLink = function(profile) {
   var link = learnjs.template("profile-link");
   link.find("a").text(profile.email);
   $(".signin-bar").prepend(link);
-}
+};
 
 learnjs.flashElement = function(elem, content) {
   elem.fadeOut("fast", function() {
     elem.html(content);
     elem.fadeIn();
   });
-}
+};
 
 learnjs.buildCorrectFlash = function (problemNum) {
   var correctFlash = learnjs.template("correct-flash");
@@ -124,7 +137,7 @@ learnjs.buildCorrectFlash = function (problemNum) {
     link.text("You're Finished!");
   }
   return correctFlash;
-}
+};
 
 learnjs.problemView = function(data) {
   var problemNumber = parseInt(data, 10);
@@ -168,11 +181,11 @@ learnjs.problemView = function(data) {
   view.find(".title").text("Problem #" + problemNumber);
   learnjs.applyObject(problemData, view);
   return view;
-}
+};
 
 learnjs.landingView = function() {
   return learnjs.template("landing-view");
-}
+};
 
 learnjs.profileView = function() {
   var view = learnjs.template("profile-view");
@@ -180,7 +193,7 @@ learnjs.profileView = function() {
     view.find(".email").text(identity.email);
   });
   return view;
-}
+};
 
 learnjs.showView = function(hash) {
   var routes = {
@@ -195,7 +208,7 @@ learnjs.showView = function(hash) {
     learnjs.triggerEvent("removingView", []);
     $(".view-container").empty().append(viewFn(hashParts[1]));
   }
-}
+};
 
 learnjs.appOnReady = function() {
   window.onhashchange = function() {
@@ -203,7 +216,7 @@ learnjs.appOnReady = function() {
   };
   learnjs.showView(window.location.hash);
   learnjs.identity.done(learnjs.addProfileLink);
-}
+};
 
 learnjs.awsRefresh = function() {
   var deferred = new $.Deferred();
@@ -215,7 +228,7 @@ learnjs.awsRefresh = function() {
     }
   });
   return deferred.promise();
-}
+};
 
 function googleSignIn(googleUser) {
   var id_token = googleUser.getAuthResponse().id_token;
@@ -227,7 +240,7 @@ function googleSignIn(googleUser) {
         "accounts.google.com": id_token
       }
     })
-  })
+  });
   function refresh() {
     return gapi.auth2.getAuthInstance().signIn({
         prompt: "login"
