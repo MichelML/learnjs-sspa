@@ -3,6 +3,8 @@ var learnjs = {
   poolId: 'us-east-1:a76fddad-9bb4-4495-987c-8d3b6be6f497'
 };
 
+learnjs.identity = new $.Deferred();
+
 learnjs.problems = [{
   description: 'What is the truth?',
   code: 'function problem() {return __; }'
@@ -49,6 +51,14 @@ learnjs.problemView = function(data) {
   return view;
 };
 
+learnjs.profileView = function() {
+  var view = learnjs.template('profile-view');
+  learnjs.identity.done(function(identity) {
+    view.find('.email').text(identity.email);
+  });
+  return view;
+}
+
 learnjs.flashElement = function(elem, content) {
   elem.fadeOut('fast', function() {
     elem.html(content);
@@ -59,6 +69,8 @@ learnjs.flashElement = function(elem, content) {
 learnjs.showView = function(hash) {
   var routes = {
     "#problem": learnjs.problemView,
+    "#profile": learnjs.profileView,
+    "#": learnjs.landingView,
     "": learnjs.landingView
   };
   var hashParts = hash.split('-');
@@ -74,6 +86,7 @@ learnjs.appOnReady = function() {
     learnjs.showView(window.location.hash);
   };
   learnjs.showView(window.location.hash);
+  learnjs.identity.done(learnjs.addProfileLink);
 };
 
 learnjs.applyObject = function(obj, elem) {
@@ -106,32 +119,38 @@ learnjs.triggerEvent = function(name, args) {
   $('.view-container>*').trigger(name, args);
 };
 
+learnjs.addProfileLink = function(profile) {
+  var link = learnjs.template('profile-link');
+  link.find('a').text(profile.email);
+  $('.signin-bar').prepend(link);
+};
 
 //Sign in callback functions
 
-learnjs.identity = new $.Deferred();
+learnjs.awsRefresh = function() {
+  var deferred = new $.Deferred();
+  AWS.config.credentials.refresh(function(err) {
+    if (err) {
+      deferred.reject(err);
+    } else {
+      deferred.resolve(AWS.config.credentials.identityId);
+    }
+  });
+  return deferred.promise();
+};
 
-learnjs.awsRefresh().then(function() {
-  learnjs.identity.resolve({
-    id: id,
-    email: googleUser.getBasicProfile().getEmail(),
-    refresh: refresh
-  })
-})
-
-function googleSignIn() {
+function googleSignIn(googleUser) {
   var id_token = googleUser.getAuthResponse().id_token;
   AWS.config.update({
-    region: {
-      'us-east-1',
-      credentials: new AWS.CognitoIdentityCredentials({
-        IdentityPoolId: learnjs.poolId,
-        Logins: {
-          'accounts.google.com': id_token
-        }
-      })
-    }
-});
+    region: 'us-east-1',
+    credentials: new AWS.CognitoIdentityCredentials({
+      IdentityPoolId: learnjs.poolId,
+      Logins: {
+        'accounts.google.com': id_token
+      }
+    })
+  });
+
   function refresh() {
     return gapi.auth2.getAuthInstance().signIn({
       prompt: 'login'
@@ -142,19 +161,14 @@ function googleSignIn() {
       return learnjs.awsRefresh();
     });
   }
+
+
+  learnjs.awsRefresh().then(function(id) {
+    learnjs.identity.resolve({
+      id: id,
+      email: googleUser.getBasicProfile().getEmail(),
+      refresh: refresh
+    });
+  });
 }
-
-
-learnjs.awsRefresh = function() {
-  var deferred = new $.Deferred();
-  AWS.config.credentials.refresh(function(err) {
-    if (err) {
-      deferred.reject(err);
-    } else {
-      deferred.resolve(AWS.config.credentials.identityId);
-    }
-  })
-  return deferred.promise();
-};
-
 
