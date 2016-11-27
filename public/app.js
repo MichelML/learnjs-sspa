@@ -18,10 +18,10 @@ learnjs.problemView = function(data) {
   var view = $('.templates .problem-view').clone();
   var problemData = learnjs.problems[problemNumber - 1];
   var resultFlash = view.find('.result');
-  var answer = view.find('.answer').val() || 0;
+  var answer = view.find('.answer');
 
   function checkAnswer() {
-    var test = problemData.code.replace('__', answer) + '; problem();';
+    var test = problemData.code.replace('__', answer.val() || 0) + '; problem();';
     return eval(test);
   }
 
@@ -230,6 +230,22 @@ learnjs.fetchAnswer = function(problemId) {
     };
     return learnjs.sendDbRequest(db.get(item), function() {
       return learnjs.fetchAnswer(problemId);
+    });
+  });
+
+}
+
+learnjs.countAnswers = function(problemId) {
+  return learnjs.identity.then(function(identity) {
+    var db = new AWS.DynamoDB.DocumentClient();
+    var params = {
+      TableName: 'learnjs',
+      Select: 'COUNT', 
+      FilterExpression: 'problemId = :problemId',
+      ExpressionAttributeValues: { ':problemId': problemId }
+    };
+    return learnjs.sendDbRequest(db.scan(params), function() {
+      return learnjs.countAnswers(problemId);
     });
   });
 
