@@ -126,7 +126,6 @@ learnjs.addProfileLink = function(profile) {
 };
 
 //Sign in callback functions
-
 learnjs.awsRefresh = function() {
   var deferred = new $.Deferred();
   AWS.config.credentials.refresh(function(err) {
@@ -162,7 +161,6 @@ function googleSignIn(googleUser) {
     });
   }
 
-
   learnjs.awsRefresh().then(function(id) {
     learnjs.identity.resolve({
       id: id,
@@ -171,4 +169,3 @@ function googleSignIn(googleUser) {
     });
   });
 }
-
