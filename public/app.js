@@ -51,7 +51,7 @@ learnjs.problemView = function(data) {
   }
 
   learnjs.fetchAnswer(problemNumber).then(function(data) {
-    if (data.item) {
+    if (data.Item) {
       answer.val(data.Item.answer);
     }
   });
