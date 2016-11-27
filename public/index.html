@@ -3,6 +3,7 @@
 
 <head>
   <meta charset='utf-8'>
+  <meta name="google-signin-client_id" content="980828274767-o7r6udjumndb81o2lp28qknrm15t9ktb.apps.googleusercontent.com">
   <title>Learn JS!</title>
   <link href='//fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet'
     type='text/css'>
@@ -57,7 +58,12 @@
     }
     
     .nav-list {
-      padding: 10px 10px;
+      padding: 5px 5px;
+    }
+
+    .navbar-padding {
+      padding-top:7px;
+      display:inline-block;
     }
   </style>
 </head>
@@ -75,6 +81,11 @@
           <a href="#problem-1">Start</a>
         </li>
       </ul>
+      <div class="four columns">
+        <span class="navbar-padding u-pull-right">
+          <span class="g-signin2" data-onsuccess="googleSignIn"></span>
+        </span>
+      </div>
     </div>
     <div class='view-container container'>
     </div>
@@ -111,6 +122,7 @@
       </li>
     </div>
   </div>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
   <script src='https://code.jquery.com/jquery-2.1.4.min.js'></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
   <script src='/vendor.js'></script>
